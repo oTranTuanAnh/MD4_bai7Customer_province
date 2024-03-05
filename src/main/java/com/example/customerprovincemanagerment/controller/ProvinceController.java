@@ -4,6 +4,8 @@ import com.example.customerprovincemanagerment.model.Province;
 import com.example.customerprovincemanagerment.service.ICustomerService;
 import com.example.customerprovincemanagerment.service.IProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,9 +22,9 @@ public class ProvinceController {
     @Autowired
     private ICustomerService customerService;
     @GetMapping
-    public ModelAndView listProvince(){
+    public ModelAndView listProvince(Pageable pageable){
         ModelAndView modelAndView = new ModelAndView("/province/list");
-        Iterable<Province> provinces = provinceService.findAll();
+        Page<Province> provinces = provinceService.findAll(pageable);
         modelAndView.addObject("provinces", provinces);
         return modelAndView;
     }

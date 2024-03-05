@@ -6,6 +6,8 @@ import com.example.customerprovincemanagerment.service.ICustomerService;
 import com.example.customerprovincemanagerment.service.IProvinceService;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,13 +24,13 @@ public class CustomerController {
     @Autowired
     private ICustomerService customerService;
     @ModelAttribute("provinces")
-    public Iterable<Province> listProvinces() {
-        return provinceService.findAll();
+    public Iterable<Province> listProvinces(Pageable pageable) {
+        return provinceService.findAll(pageable);
     }
     @GetMapping
-    public ModelAndView listCustomer(){
+    public ModelAndView listCustomer(Pageable pageable){
         ModelAndView modelAndView = new ModelAndView("/customer/list");
-        Iterable<Customer> customers = customerService.findAll();
+        Page<Customer> customers = customerService.findAll(pageable);
         modelAndView.addObject("customers", customers);
         return modelAndView;
     }
